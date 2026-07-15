@@ -2,7 +2,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Game {
+class Game {
     private final String castle = VisualKeys.CASTLE.getImage();
     private final GameBoard board = new GameBoard(5);
     private final Person person = new Person(board.getSize());
@@ -11,7 +11,7 @@ public class Game {
     private Monster[] arrMonster;
     private int step;
 
-    public void start() {
+    void start() {
         generateCastle();
         generateMonsters();
 
@@ -29,7 +29,7 @@ public class Game {
                     System.out.println("Жаль, приходи еще!");
                     return;
                 }
-                default -> System.out.println("Данные введены неккоректно");
+                default -> System.out.println("Данные введены некорректно");
             }
         }
     }
@@ -69,12 +69,11 @@ public class Game {
         while (true) {
             board.setCell(person.getX() - 1, person.getY() - 1, person.getImage());
             board.output(person.getLive());
-            System.out.println("Введите направление движения: ВВЕРХ, ВНИЗ, ВЛЕВО или ВПРАВО");
-            Direction direction = inputDirection();
-            int x = person.getX() + direction.getStepX();
-            int y = person.getY() + direction.getStepY();
+            System.out.println("Введите координаты x и y через пробел" +
+                    "\nКоординаты персонажа - (x: " + person.getX() + ", y: " + person.getY() + ")");
+            int[] coordinates = inputCoordinates();
 
-            if (makeMove(x, y, difficultGame)) {
+            if (makeMove(coordinates[0], coordinates[1], difficultGame)) {
                 break;
             }
         }
@@ -87,7 +86,7 @@ public class Game {
         }
 
         if (!person.moveCorrect(x, y)) {
-            System.out.println("Неккоректный ход");
+            System.out.println("Некорректный ход");
             return false;
         }
 
@@ -123,13 +122,21 @@ public class Game {
         }
     }
 
-    private Direction inputDirection() {
+    private int[] inputCoordinates() {
         while (true) {
-            Direction direction = Direction.fromString(sc.nextLine());
-            if (direction != null) {
-                return direction;
+            if (sc.hasNextInt()) {
+                int x = sc.nextInt();
+                if (sc.hasNextInt()) {
+                    int y = sc.nextInt();
+                    if (board.isInside(x - 1, y - 1)) {
+                        return new int[]{x, y};
+                    }
+                }
             }
-            System.out.println("Неизвестное направление. Введите: ВВЕРХ, ВНИЗ, ВЛЕВО или ВПРАВО");
+
+            sc.nextLine();
+            System.out.println("Координаты должны быть целыми числами от 1 до " + board.getSize() +
+                    ". Введите x и y еще раз:");
         }
     }
 

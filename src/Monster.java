@@ -1,42 +1,38 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class Monster {
+class Monster {
     private String image = VisualKeys.MONSTER.getImage();
     private final int x, y;
     private boolean defeated;
-    Random r = new Random();
+    protected final Random r = new Random();
 
     Monster(int sizeBoard) {
         this.y = r.nextInt(sizeBoard - 1);
         this.x = r.nextInt(sizeBoard);
     }
 
-    public String getImage() {
+    String getImage() {
         return image;
     }
 
-    public int getY() {
+    int getY() {
         return y;
     }
 
-    public int getX() {
+    int getX() {
         return x;
     }
 
-    public boolean conflictPerson(int perX, int perY) {
+    boolean conflictPerson(int perX, int perY) {
         return !defeated && perY - 1 == this.y && perX - 1 == this.x;
     }
 
-    public void defeat() {
+    void defeat() {
         defeated = true;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public boolean taskMonster(int difficultGame, Scanner sc) {
+    boolean taskMonster(int difficultGame, Scanner sc) {
         System.out.println("Решите задачу:");
         int maxNumber = 20 * difficultGame;
         int a = r.nextInt(maxNumber + 1);

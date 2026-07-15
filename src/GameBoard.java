@@ -1,4 +1,4 @@
-public class GameBoard {
+class GameBoard {
     private final String[][] board;
     private final int size;
 
@@ -13,31 +13,31 @@ public class GameBoard {
         }
     }
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
-    public String getCell(int x, int y) {
+    String getCell(int x, int y) {
         return board[y][x];
     }
 
-    public boolean isInside(int x, int y) {
+    boolean isInside(int x, int y) {
         return x >= 0 && x < size && y >= 0 && y < size;
     }
 
-    public void setCell(int x, int y, String image) {
+    void setCell(int x, int y, String image) {
         board[y][x] = image;
     }
 
-    public boolean isCellEmpty(int x, int y) {
+    boolean isCellEmpty(int x, int y) {
         return getCell(x, y).equals(VisualKeys.EMPTY.getImage());
     }
 
-    public void clearCell(int x, int y) {
+    void clearCell(int x, int y) {
         setCell(x, y, VisualKeys.EMPTY.getImage());
     }
 
-    public void output(int live) {
+    void output(int live) {
         String leftBlock = "| ";
         String rightBlock = "|";
         String wall = "+ —— + —— + —— + —— + —— +";

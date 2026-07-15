@@ -1,4 +1,4 @@
-public enum VisualKeys {
+enum VisualKeys {
     EMPTY("  "),
     CASTLE("\uD83C\uDFF0"),
     PERSON("\uD83E\uDDD9\u200D"),
@@ -11,7 +11,7 @@ public enum VisualKeys {
         this.image = image;
     }
 
-    public String getImage() {
+    String getImage() {
         return image;
     }
 }

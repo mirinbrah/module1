@@ -1,13 +1,13 @@
 import java.util.Random;
 
-public class Person {
-    protected int x, y;
-    private String image = VisualKeys.PERSON.getImage();
+class Person {
+    private int x, y;
+    private final String image = VisualKeys.PERSON.getImage();
     private int live = 3;
-    Random r = new Random();
 
     Person(int sizeBoard) {
         y = sizeBoard;
+        Random r = new Random();
         x = r.nextInt(sizeBoard) + 1;
     }
 
@@ -19,27 +19,23 @@ public class Person {
         this(1, 1);
     }
 
-    public int getX(){
+    int getX(){
         return x;
     }
 
-    public int getY() {
+    int getY() {
         return y;
     }
 
-    public int getLive() {
+    int getLive() {
         return live;
     }
 
-    public String getImage(){
+    String getImage(){
         return image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public boolean moveCorrect(int x, int y){
+    boolean moveCorrect(int x, int y){
         return this.x == x && Math.abs(this.y - y) == 1 || this.y == y && Math.abs(this.x - x) == 1;
     }
 
@@ -48,7 +44,7 @@ public class Person {
         this.y = y;
     }
 
-    public void downLive(){
+    void downLive(){
         live--;
     }
 }
