@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Monster {
-    private String image = "\uD83E\uDDDF\u200D";
+    private String image = VisualKeys.MONSTER.getImage();
     private final int x, y;
     Random r = new Random();
 
@@ -33,8 +33,9 @@ public class Monster {
 
     public boolean taskMonster(int difficultGame) {
         System.out.println("Решите задачу:");
-        int a = r.nextInt(100);
-        int b = r.nextInt(100);
+        int maxNumber = 20 * difficultGame;
+        int a = r.nextInt(maxNumber + 1);
+        int b = r.nextInt(maxNumber + 1);
         int trueAnswer = a + b;
         System.out.println("Реши пример: " + a + " + " + b + " = ?");
         Scanner sc = new Scanner(System.in);

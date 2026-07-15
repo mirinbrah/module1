@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Person {
     protected int x, y;
-    private String image = "\uD83E\uDDD9\u200D";
+    private String image = VisualKeys.PERSON.getImage();
     private int live = 3;
     Random r = new Random();
 

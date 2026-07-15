@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class BigMonster extends Monster {
 
-    private String image = "\uD83D\uDC79";
+    private String image = VisualKeys.BIG_MONSTER.getImage();
 
     BigMonster(int sizeBoard) {
         super(sizeBoard);
@@ -22,7 +22,7 @@ public class BigMonster extends Monster {
     public boolean taskMonster(int difficultGame) {
         System.out.println("Решите задачу:");
         if (difficultGame == 1) {
-            return taskMonster();
+            return super.taskMonster(difficultGame);
         } else {
             int x = r.nextInt(10 * (difficultGame - 1), 10 * difficultGame);
             int y = r.nextInt(10 * (difficultGame - 1), 10 * difficultGame);
@@ -40,9 +40,5 @@ public class BigMonster extends Monster {
             }
         }
 
-    }
-
-    public boolean taskMonster() {
-        return super.taskMonster(0);
     }
 }

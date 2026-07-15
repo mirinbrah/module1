@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.Locale;
 
 public class Game {
-    private final String castle = "\uD83C\uDFF0";
+    private final String castle = VisualKeys.CASTLE.getImage();
     private final GameBoard board = new GameBoard(5);
     private final Person person = new Person(board.getSize());
     private final Random r = new Random();
@@ -54,8 +54,7 @@ public class Game {
     }
 
     private void play() {
-        System.out.println("Выбери сложность игры(от 1 до 5):");
-        int difficultGame = sc.nextInt();
+        int difficultGame = inputDifficulty();
         System.out.println("Выбранная сложность:\t" + difficultGame);
 
         while (true) {
@@ -79,7 +78,7 @@ public class Game {
         }
 
         String next = board.getCell(x - 1, y - 1);
-        if (next.equals("  ")) {
+        if (next.equals(VisualKeys.EMPTY.getImage())) {
             movePerson(x, y);
             step++;
             System.out.println("Ход корректный; Новые координаты: " + person.getX() + ", " + person.getY() +
@@ -91,6 +90,23 @@ public class Game {
             fightMonster(x, y, difficultGame);
         }
         return false;
+    }
+
+    private int inputDifficulty() {
+        while (true) {
+            System.out.println("Выбери сложность игры(от 1 до 5):");
+
+            if (sc.hasNextInt()) {
+                int difficultGame = sc.nextInt();
+                if (difficultGame >= 1 && difficultGame <= 5) {
+                    return difficultGame;
+                }
+            } else {
+                sc.next();
+            }
+
+            System.out.println("Сложность должна быть целым числом от 1 до 5");
+        }
     }
 
     private void fightMonster(int x, int y, int difficultGame) {

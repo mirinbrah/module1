@@ -8,7 +8,7 @@ public class GameBoard {
 
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                board[y][x] = "  ";
+                board[y][x] = VisualKeys.EMPTY.getImage();
             }
         }
     }
@@ -26,11 +26,11 @@ public class GameBoard {
     }
 
     public boolean isCellEmpty(int x, int y) {
-        return getCell(x, y).equals("  ");
+        return getCell(x, y).equals(VisualKeys.EMPTY.getImage());
     }
 
     public void clearCell(int x, int y) {
-        setCell(x, y, "  ");
+        setCell(x, y, VisualKeys.EMPTY.getImage());
     }
 
     public void output(int live) {
