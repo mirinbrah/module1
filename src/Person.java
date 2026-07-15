@@ -8,8 +8,7 @@ public class Person {
 
     Person(int sizeBoard) {
         y = sizeBoard;
-        int n = r.nextInt(sizeBoard);
-        x = n == 0 ? 1 : n;
+        x = r.nextInt(sizeBoard) + 1;
     }
 
     Person(int x, int y){

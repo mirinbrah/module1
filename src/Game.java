@@ -1,6 +1,6 @@
+import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Locale;
 
 public class Game {
     private final String castle = VisualKeys.CASTLE.getImage();
@@ -12,17 +12,25 @@ public class Game {
     private int step;
 
     public void start() {
-        generateMonsters();
         generateCastle();
+        generateMonsters();
 
-        System.out.println("Привет! Ты готов начать играть в игру? (Напиши: ДА или НЕТ)");
-        String answer = sc.nextLine();
-        System.out.println("Ваш ответ:\t" + answer);
+        while (true) {
+            System.out.println("Привет! Ты готов начать играть в игру? (Напиши: ДА или НЕТ)");
+            String answer = sc.nextLine();
+            System.out.println("Ваш ответ:\t" + answer);
 
-        switch (answer.trim().toUpperCase(Locale.ROOT)) {
-            case "ДА" -> play();
-            case "НЕТ" -> System.out.println("Жаль, приходи еще!");
-            default -> System.out.println("Данные введены неккоректно");
+            switch (answer.trim().toUpperCase(Locale.ROOT)) {
+                case "ДА" -> {
+                    play();
+                    return;
+                }
+                case "НЕТ" -> {
+                    System.out.println("Жаль, приходи еще!");
+                    return;
+                }
+                default -> System.out.println("Данные введены неккоректно");
+            }
         }
     }
 
@@ -62,10 +70,9 @@ public class Game {
             board.output(person.getLive());
             System.out.println("Введите куда будет ходить персонаж (ход возможен только по вертикали и горизонтали на одну клетку)" +
                     "\nКоординаты персонажа - (x: " + person.getX() + ", y: " + person.getY() + "))");
-            int x = sc.nextInt();
-            int y = sc.nextInt();
+            int[] coordinates = inputCoordinates();
 
-            if (makeMove(x, y, difficultGame)) {
+            if (makeMove(coordinates[0], coordinates[1], difficultGame)) {
                 break;
             }
         }
@@ -87,7 +94,7 @@ public class Game {
             System.out.println("Вы прошли игру!");
             return true;
         } else {
-            fightMonster(x, y, difficultGame);
+            return fightMonster(x, y, difficultGame);
         }
         return false;
     }
@@ -109,17 +116,41 @@ public class Game {
         }
     }
 
-    private void fightMonster(int x, int y, int difficultGame) {
+    private int[] inputCoordinates() {
+        while (true) {
+            if (sc.hasNextInt()) {
+                int x = sc.nextInt();
+                if (sc.hasNextInt()) {
+                    int y = sc.nextInt();
+                    if (x >= 1 && x <= board.getSize() && y >= 1 && y <= board.getSize()) {
+                        return new int[]{x, y};
+                    }
+                }
+            }
+
+            sc.nextLine();
+            System.out.println("Координаты должны быть целыми числами от 1 до " + board.getSize() +
+                    ". Введите x и y еще раз:");
+        }
+    }
+
+    private boolean fightMonster(int x, int y, int difficultGame) {
         for (Monster monster : arrMonster) {
             if (monster.conflictPerson(x, y)) {
-                if (monster.taskMonster(difficultGame)) {
+                if (monster.taskMonster(difficultGame, sc)) {
+                    monster.defeat();
                     movePerson(x, y);
                 } else {
                     person.downLive();
+                    if (person.getLive() == 0) {
+                        System.out.println("У вас закончились жизни. Игра окончена!");
+                        return true;
+                    }
                 }
                 break;
             }
         }
+        return false;
     }
 
     private void movePerson(int x, int y) {

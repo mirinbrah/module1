@@ -19,26 +19,29 @@ public class BigMonster extends Monster {
     }
 
     @Override
-    public boolean taskMonster(int difficultGame) {
-        System.out.println("Решите задачу:");
-        if (difficultGame == 1) {
-            return super.taskMonster(difficultGame);
+    public boolean taskMonster(int difficultGame, Scanner sc) {
+        int trueAnswer = r.nextInt(2, 5 * difficultGame + 3);
+        int coefficient = difficultGame == 1 ? 1 : r.nextInt(2, 2 * difficultGame + 2);
+        int freeNumber = r.nextInt(1, 10 * difficultGame + 1);
+        boolean subtraction = difficultGame >= 3 && r.nextBoolean();
+        int rightPart;
+
+        System.out.println("Большой монстр приготовил уравнение. Найди x:");
+        if (subtraction) {
+            rightPart = coefficient * trueAnswer - freeNumber;
+            System.out.println(coefficient + "x - " + freeNumber + " = " + rightPart);
         } else {
-            int x = r.nextInt(10 * (difficultGame - 1), 10 * difficultGame);
-            int y = r.nextInt(10 * (difficultGame - 1), 10 * difficultGame);
-            int z = r.nextInt(100 * (difficultGame - 1), 100 * difficultGame);
-            int trueAnswer = x * y - z;
-            System.out.println("Реши пример: " + x + " * " + y + " - " + z + " = ?");
-            Scanner sc = new Scanner(System.in);
-            int ans = sc.nextInt();
-            if (trueAnswer == ans) {
-                System.out.println("Верно! Ты победил монстра");
-                return true;
-            } else {
-                System.out.println("Ты проиграл эту битву!");
-                return false;
-            }
+            rightPart = coefficient * trueAnswer + freeNumber;
+            System.out.println(coefficient + "x + " + freeNumber + " = " + rightPart);
         }
 
+        int answer = inputAnswer(sc);
+        if (answer == trueAnswer) {
+            System.out.println("Верно! Ты решил уравнение и победил большого монстра");
+            return true;
+        } else {
+            System.out.println("Неверно! Правильный ответ: x = " + trueAnswer);
+            return false;
+        }
     }
 }
