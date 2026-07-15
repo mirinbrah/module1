@@ -21,6 +21,10 @@ public class GameBoard {
         return board[y][x];
     }
 
+    public boolean isInside(int x, int y) {
+        return x >= 0 && x < size && y >= 0 && y < size;
+    }
+
     public void setCell(int x, int y, String image) {
         board[y][x] = image;
     }

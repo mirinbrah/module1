@@ -63,22 +63,29 @@ public class Game {
 
     private void play() {
         int difficultGame = inputDifficulty();
+        sc.nextLine();
         System.out.println("Выбранная сложность:\t" + difficultGame);
 
         while (true) {
             board.setCell(person.getX() - 1, person.getY() - 1, person.getImage());
             board.output(person.getLive());
-            System.out.println("Введите куда будет ходить персонаж (ход возможен только по вертикали и горизонтали на одну клетку)" +
-                    "\nКоординаты персонажа - (x: " + person.getX() + ", y: " + person.getY() + "))");
-            int[] coordinates = inputCoordinates();
+            System.out.println("Введите направление движения: ВВЕРХ, ВНИЗ, ВЛЕВО или ВПРАВО");
+            Direction direction = inputDirection();
+            int x = person.getX() + direction.getStepX();
+            int y = person.getY() + direction.getStepY();
 
-            if (makeMove(coordinates[0], coordinates[1], difficultGame)) {
+            if (makeMove(x, y, difficultGame)) {
                 break;
             }
         }
     }
 
     private boolean makeMove(int x, int y, int difficultGame) {
+        if (!board.isInside(x - 1, y - 1)) {
+            System.out.println("Нельзя выйти за границы игрового поля");
+            return false;
+        }
+
         if (!person.moveCorrect(x, y)) {
             System.out.println("Неккоректный ход");
             return false;
@@ -116,21 +123,13 @@ public class Game {
         }
     }
 
-    private int[] inputCoordinates() {
+    private Direction inputDirection() {
         while (true) {
-            if (sc.hasNextInt()) {
-                int x = sc.nextInt();
-                if (sc.hasNextInt()) {
-                    int y = sc.nextInt();
-                    if (x >= 1 && x <= board.getSize() && y >= 1 && y <= board.getSize()) {
-                        return new int[]{x, y};
-                    }
-                }
+            Direction direction = Direction.fromString(sc.nextLine());
+            if (direction != null) {
+                return direction;
             }
-
-            sc.nextLine();
-            System.out.println("Координаты должны быть целыми числами от 1 до " + board.getSize() +
-                    ". Введите x и y еще раз:");
+            System.out.println("Неизвестное направление. Введите: ВВЕРХ, ВНИЗ, ВЛЕВО или ВПРАВО");
         }
     }
 

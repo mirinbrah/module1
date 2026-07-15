@@ -58,6 +58,8 @@ public class Monster {
             sc.next();
             System.out.println("Ответ должен быть целым числом. Попробуй еще раз:");
         }
-        return sc.nextInt();
+        int answer = sc.nextInt();
+        sc.nextLine();
+        return answer;
     }
 }
